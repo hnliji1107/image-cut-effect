@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>clip测试</title>
+	<style>
+	.wrap {
+		position: relative;
+		margin: 0 auto;
+		width: 600px;
+		height: 897px;
+	}
+	.wrap img {
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+	.wrap img:nth-of-type(1) {
+		opacity: 0.5;
+	}
+	.wrap img:nth-of-type(2) {
+		clip: rect(0, 200px, 200px, 0);
+	}
+	.wrap .dragbar {
+		position: absolute;
+		left: 0;
+		top: 0;
+		height: 200px;
+		width: 200px;
+	}
+	</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<img src="mm.jpg">
+<img src="mm.jpg">
+
+<span class="dragbar"></span>
+
+</div>
+
+<script src="jquery-1.9.1.js"></script>
+<script src="zoomAndMove.js"></script>
+
+<script>
+	;(function($) {
+		var wrap = $('.wrap'), simg = wrap.find('img').eq(1);
+
+		wrap.find('.dragbar').zoomAndMove({
+			isMove: true,
+			isZoom: true,
+			moving: function(info) {
+				var top = info.top, right = info.left+info.width, bottom = info.top+info.height, left = info.left;
+				simg.css('clip', 'rect('+top+'px,'+right+'px,'+bottom+'px,'+left+'px)');
+			},
+			zooming: function(info) {
+				var top = info.top, right = info.left+info.width, bottom = info.top+info.height, left = info.left;
+				simg.css('clip', 'rect('+top+'px,'+right+'px,'+bottom+'px,'+left+'px)');
+			},
+			container: wrap
+		});
+	})(jQuery);
+</script>
+	
+</body>
+</html>
